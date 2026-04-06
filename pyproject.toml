@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtm"
+version = "1.0.0"
+description = "macOS Target Mapper for local binary attack surface."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "Proprietary"}
+authors = [
+  {name = "coiffeur"}
+]
+
+[project.scripts]
+mtm = "mtm.cli:main"
+
+[tool.setuptools]
+packages = ["mtm"]
