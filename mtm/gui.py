@@ -1176,22 +1176,51 @@ _BROWSER_VIEWER_HTML = """<!doctype html>
         background: rgba(255, 255, 255, 0.96);
         box-shadow: 0 12px 26px rgba(18, 34, 41, 0.06);
       }
-      tbody td {
-        display: grid;
-        grid-template-columns: minmax(94px, 118px) minmax(0, 1fr);
-        gap: 12px;
+      tbody tr.result-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      tbody tr.result-row td {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 12px;
+        border: 1px solid rgba(163, 153, 137, 0.18);
+        border-radius: 14px;
+        width: auto;
+        min-width: 0;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 244, 237, 0.94));
+        align-items: flex-start;
+      }
+      tbody tr.result-row td[data-label="Path"] {
+        grid-column: 1 / -1;
         padding: 0;
         border: none;
-        width: auto;
-        align-items: start;
+        border-bottom: 1px solid rgba(163, 153, 137, 0.18);
+        border-radius: 0;
+        background: transparent;
+        padding-bottom: 12px;
       }
-      tbody td::before {
+      tbody tr.result-row td::before {
         content: attr(data-label);
         color: var(--muted);
         font-size: 0.76rem;
         letter-spacing: 0.05em;
         text-transform: uppercase;
         font-family: "Avenir Next", "SF Pro Display", "Helvetica Neue", sans-serif;
+      }
+      tbody tr.result-row td[data-label="Path"]::before {
+        content: "Binary";
+      }
+      tbody tr.result-row .row-path {
+        font-size: 0.98rem;
+        line-height: 1.45;
+      }
+      tbody tr.result-row .row-secondary {
+        margin-top: 0;
+      }
+      tbody tr.result-row .badge {
+        max-width: 100%;
       }
       .empty-row {
         display: block;
@@ -1259,9 +1288,14 @@ _BROWSER_VIEWER_HTML = """<!doctype html>
       .card {
         padding: 14px;
       }
-      tbody td {
+      tbody tr.result-row {
         grid-template-columns: 1fr;
-        gap: 4px;
+      }
+      tbody tr.result-row td {
+        padding: 10px 12px;
+      }
+      tbody tr.result-row td[data-label="Path"] {
+        padding: 0 0 10px;
       }
       .modal-title h2 {
         font-size: 1.05rem;
@@ -1682,6 +1716,7 @@ _BROWSER_VIEWER_HTML = """<!doctype html>
 
       items.forEach((item) => {
         const row = document.createElement("tr");
+        row.className = "result-row";
         row.dataset.binaryId = String(item.binary_id);
         const realPathHtml = item.real_path && item.real_path !== item.path
           ? `<div class="row-secondary mono">${escapeHtml(item.real_path)}</div>`
